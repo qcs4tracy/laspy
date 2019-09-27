@@ -199,8 +199,8 @@ class DataProvider():
 
                 self._mmap = full
 
-            
-            self._pmap = np.frombuffer(self._mmap, self.pointfmt,
+            buffer = self._mmap.view if isinstance(self._mmap, FakeMmap) else self._mmap
+            self._pmap = np.frombuffer(buffer, self.pointfmt,
                                        offset=self.manager.header.data_offset)
             if self.manager.header.point_records_count != len(self._pmap):
                 if self.manager.mode == "r":
